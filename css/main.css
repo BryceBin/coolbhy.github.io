@@ -1604,26 +1604,6 @@ pre .javascript .function {
   max-width: 120px;
   height: auto;
   border: 1px solid #eee;
-}
-.site-author-name {
-  margin: 0;
-  text-align: center;
-  color: #222;
-  font-weight: 600;
-}
-.site-description {
-  margin-top: 0;
-  text-align: center;
-  font-size: 13px;
-  color: #999;
-}
-.site-author-image {
-  display: block;
-  margin: 0 auto;
-  padding: 2px;
-  max-width: 120px;
-  height: auto;
-  border: 1px solid #eee;
 /* 头像圆形 */
   border-radius: 80px;
   -webkit-border-radius: 80px;
@@ -1797,7 +1777,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #123baf;
+  background: #ffeca6;
 }
 .links-of-blogroll {
   font-size: 13px;
