@@ -327,201 +327,26 @@
       
         
           
-            <h1 id="费马小定理判定素数"><a href="#费马小定理判定素数" class="headerlink" title="费马小定理判定素数"></a>费马小定理判定素数</h1><p>判定素数的方法有很多，简单的遍历算法有如下三种：</p>
-<ul>
-<li><strong>for(int i=3;i&lt;n;i++)</strong></li>
-<li><strong>for(int i=3;i&lt;n/2;i++)</strong></li>
-<li><strong>for(int i=3;i&lt;sqrt(n);i++) //sqrt()为平方根函数</strong><br><strong>（本文不讨论n&lt;=2的情况）</strong></li>
-</ul>
-<blockquote>
-<p>可以看出这三种方法用来判定素数一种比一种快，效率更高。但是如果要判定的数值非常大，用这三种方法来进行判定花的时间就会比较久，谁也不想坐在电脑面前傻等是不是(╯‵□′)╯︵┻━┻。</p>
-</blockquote>
-<h4 id="那么有没有一种算法能够不用遍历就判定出素数呢？"><a href="#那么有没有一种算法能够不用遍历就判定出素数呢？" class="headerlink" title="那么有没有一种算法能够不用遍历就判定出素数呢？"></a>那么有没有一种算法能够不用遍历就判定出素数呢？</h4><p>答案自然是有的啦！此时就要请出<strong>费马</strong>大佬了</p>
-<h2 id="费马小定理"><a href="#费马小定理" class="headerlink" title="费马小定理:"></a><a href="https://baike.baidu.com/item/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/4776158?fr=aladdin" target="_blank" rel="external">费马小定理</a>:</h2><blockquote>
-<p>假如p是质数，且gcd(a,p)=1，那么a^(p-1)≡1（mod p)，即：假如a是整数，p是质数，且a,p互质(即两者只有一个公约数1)，那么a的(p-1)次方除以p的余数恒等于1。</p>
-<p><strong>也就是说： <code>p为素数--&gt;（a^(p-1) mod p)≡1</code></strong></p>
-</blockquote>
-<h4 id="但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"><a href="#但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。" class="headerlink" title="但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"></a>但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。</h4><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h4 id="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。"><a href="#由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。" class="headerlink" title="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。"></a>由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//随机取a  需包含库&lt;time.h&gt;</span></div><div class="line">srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</div><div class="line">a=(rand() % (p - <span class="number">2</span>)+<span class="number">2</span>) ;<span class="comment">//可取到[2,p-1]之间的值</span></div></pre></td></tr></table></figure>
-<h4 id="接下来就是计算a-p-1-mod-p了。如果按照传统步骤先算a-p-1-再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a-p-1-是一个很麻烦的事情。所以这个时候就要抛出一个神器了！"><a href="#接下来就是计算a-p-1-mod-p了。如果按照传统步骤先算a-p-1-再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a-p-1-是一个很麻烦的事情。所以这个时候就要抛出一个神器了！" class="headerlink" title="接下来就是计算a^(p-1) mod p了。如果按照传统步骤先算a^(p-1)再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a^(p-1)是一个很麻烦的事情。所以这个时候就要抛出一个神器了！"></a>接下来就是计算a^(p-1) mod p了。如果按照传统步骤先算a^(p-1)再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a^(p-1)是一个很麻烦的事情。所以这个时候就要抛出一个神器了！</h4><h3 id="快速幂取模"><a href="#快速幂取模" class="headerlink" title="快速幂取模"></a><a href="http://blog.csdn.net/ltyqljhwcm/article/details/53043646" target="_blank" rel="external">快速幂取模</a></h3><p><strong>这个算法的具体实质笔者就不再赘述了,想详细了解的可以点进链接看。简单来说，如a^b mod c，快速幂取模就是将指数b拆成二进制，利用公式<code>(a*b)%c=(a%c)*(b%c)%c</code> 快速求幂模，最后判定结果是否为1即可。</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这里所有的数据类型都用long long,尽量避免数据溢出</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">quick_mod</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> a, <span class="keyword">long</span> <span class="keyword">long</span> b, <span class="keyword">long</span> <span class="keyword">long</span> c)</span> </span>&#123;</div><div class="line">	<span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">1</span>;</div><div class="line">	<span class="keyword">while</span> (b != <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">if</span> (b &amp; <span class="number">1</span>)</div><div class="line">			ans = (ans*a) % c;</div><div class="line">		b &gt;&gt;= <span class="number">1</span>;</div><div class="line">		a = (a*a) % c;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> (ans == <span class="number">1</span>)</div><div class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"><a href="#至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。" class="headerlink" title="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"></a>至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。</h4><h3 id="时间复杂度对比"><a href="#时间复杂度对比" class="headerlink" title="时间复杂度对比"></a>时间复杂度对比</h3><h4 id="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："><a href="#为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：" class="headerlink" title="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："></a>为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：</h4><table>
-<thead>
-<tr>
-<th>time /ms</th>
-<th>313211</th>
-<th>99991</th>
-<th>46237</th>
-<th>989423</th>
-<th>423849(非素数)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>3~n</td>
-<td>3657</td>
-<td>1922</td>
-<td>516</td>
-<td>17766</td>
-<td>0</td>
-</tr>
-<tr>
-<td>3~n/2</td>
-<td>1515</td>
-<td>766</td>
-<td>234</td>
-<td>7390</td>
-<td>0</td>
-</tr>
-<tr>
-<td>3~sqrt(n)</td>
-<td>78</td>
-<td>78</td>
-<td>32</td>
-<td>156</td>
-<td>0</td>
-</tr>
-<tr>
-<td>a^(n-1) mod n)≡1</td>
-<td>16</td>
-<td>31</td>
-<td>15</td>
-<td>16</td>
-<td>16</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>从上表可以看出，如果n为素数且n较大时，使用费马小定理进行判定将会大大缩短判定的时间，如果n不是素数，则各算法时间差别不大。</p>
-</blockquote>
-<h4 id="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"><a href="#利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。" class="headerlink" title="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"></a>利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。</h4><h4 id="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。"><a href="#另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。" class="headerlink" title="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。"></a>另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的<a href="https://github.com/coolbhy/IsPrime" target="_blank" rel="external">github</a>。</h4>
-          
-        
-      
-    </div>
+          费马小定理判定素数判定素数的方法有很多，简单的遍历算法有如下三种：
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
+for(int i=3;i&lt;n;i++)
+for(int i=3;i&lt;n/2;i++)
+for(int i=3;i&lt;sqrt(n);i++) //sqrt()为平方根函数（本文不讨论n&lt;=2的情况）
 
 
-    
-      
+可以看出这三种方法用来判定素数一种比一种快，效率更高。但是如果要判定的数值非常大，用这三种方法来进行判定花的时间就会比较久，谁也不想坐在电脑面前傻等是不是(╯‵□′)╯︵┻━┻。
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/13/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Bin">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://img3.duitang.com/uploads/item/201507/08/20150708212527_PiC2J.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="upbhy">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/13/test/" itemprop="url">
-                  lalala
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-13T19:59:06+08:00">
-                2017-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#tietle</p>
-<p>##subtietle</p>
-<blockquote>
-<p>test</p>
-</blockquote>
-<p><strong>test</strong><br><em>lalala
-</em>lueluelue<br><strong>test1</strong></p>
-
-          
+那么有没有一种算法能够不用遍历就判定出素数呢？答案自然是有的啦！此时就要请出费马大佬了
+费马小定理:
+假如p是质数，且g
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/11/IsPrime/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -640,17 +465,19 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new "My New Post"
+More info: Writing
+Run server1$ hexo server
+More in
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/13/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -728,7 +555,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

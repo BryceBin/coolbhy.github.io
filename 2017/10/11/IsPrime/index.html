@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/11/IsPrime/index.html">
 <meta property="og:site_name" content="upbhy">
 <meta property="og:description" content="费马小定理判定素数判定素数的方法有很多，简单的遍历算法有如下三种：  for(int i=3;i&amp;lt;n;i++) for(int i=3;i&amp;lt;n/2;i++) for(int i=3;i&amp;lt;sqrt(n);i++) //sqrt()为平方根函数（本文不讨论n&amp;lt;=2的情况）   可以看出这三种方法用来判定素数一种比一种快，效率更高。但是如果要判定的数值非常大，用这三种方法来进行判">
-<meta property="og:updated_time" content="2017-10-12T12:54:44.396Z">
+<meta property="og:updated_time" content="2017-10-12T13:04:57.399Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IsPrime">
 <meta name="twitter:description" content="费马小定理判定素数判定素数的方法有很多，简单的遍历算法有如下三种：  for(int i=3;i&amp;lt;n;i++) for(int i=3;i&amp;lt;n/2;i++) for(int i=3;i&amp;lt;sqrt(n);i++) //sqrt()为平方根函数（本文不讨论n&amp;lt;=2的情况）   可以看出这三种方法用来判定素数一种比一种快，效率更高。但是如果要判定的数值非常大，用这三种方法来进行判">
@@ -338,7 +338,8 @@
 <h4 id="但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"><a href="#但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。" class="headerlink" title="但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"></a>但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。</h4><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h4 id="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。"><a href="#由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。" class="headerlink" title="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。"></a>由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//随机取a  需包含库&lt;time.h&gt;</span></div><div class="line">srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</div><div class="line">a=(rand() % (p - <span class="number">2</span>)+<span class="number">2</span>) ;<span class="comment">//可取到[2,p-1]之间的值</span></div></pre></td></tr></table></figure>
 <h4 id="接下来就是计算a-p-1-mod-p了。如果按照传统步骤先算a-p-1-再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a-p-1-是一个很麻烦的事情。所以这个时候就要抛出一个神器了！"><a href="#接下来就是计算a-p-1-mod-p了。如果按照传统步骤先算a-p-1-再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a-p-1-是一个很麻烦的事情。所以这个时候就要抛出一个神器了！" class="headerlink" title="接下来就是计算a^(p-1) mod p了。如果按照传统步骤先算a^(p-1)再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a^(p-1)是一个很麻烦的事情。所以这个时候就要抛出一个神器了！"></a>接下来就是计算a^(p-1) mod p了。如果按照传统步骤先算a^(p-1)再对p取模，那么将消耗计算机大量的内存，并且当p很大时，计算a^(p-1)是一个很麻烦的事情。所以这个时候就要抛出一个神器了！</h4><h3 id="快速幂取模"><a href="#快速幂取模" class="headerlink" title="快速幂取模"></a><a href="http://blog.csdn.net/ltyqljhwcm/article/details/53043646" target="_blank" rel="external">快速幂取模</a></h3><p><strong>这个算法的具体实质笔者就不再赘述了,想详细了解的可以点进链接看。简单来说，如a^b mod c，快速幂取模就是将指数b拆成二进制，利用公式<code>(a*b)%c=(a%c)*(b%c)%c</code> 快速求幂模，最后判定结果是否为1即可。</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这里所有的数据类型都用long long,尽量避免数据溢出</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">quick_mod</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> a, <span class="keyword">long</span> <span class="keyword">long</span> b, <span class="keyword">long</span> <span class="keyword">long</span> c)</span> </span>&#123;</div><div class="line">	<span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">1</span>;</div><div class="line">	<span class="keyword">while</span> (b != <span class="number">0</span>) &#123;</div><div class="line">		<span class="keyword">if</span> (b &amp; <span class="number">1</span>)</div><div class="line">			ans = (ans*a) % c;</div><div class="line">		b &gt;&gt;= <span class="number">1</span>;</div><div class="line">		a = (a*a) % c;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span> (ans == <span class="number">1</span>)</div><div class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">	<span class="keyword">else</span></div><div class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"><a href="#至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。" class="headerlink" title="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"></a>至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。</h4><h3 id="时间复杂度对比"><a href="#时间复杂度对比" class="headerlink" title="时间复杂度对比"></a>时间复杂度对比</h3><h4 id="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："><a href="#为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：" class="headerlink" title="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："></a>为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：</h4><table>
+<h4 id="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"><a href="#至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。" class="headerlink" title="至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。"></a>至此，当给定一个p，对其进行10次左右的快速幂取模，如果每次幂取模的结果都是1，则可以认为p是素数。</h4><h3 id="时间复杂度对比"><a href="#时间复杂度对比" class="headerlink" title="时间复杂度对比"></a>时间复杂度对比</h3><h4 id="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："><a href="#为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：" class="headerlink" title="为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表："></a>为了体现出各个算法的时间效率，将三种简单遍历算法和费马小定理算法分别对不同正整数运行3000遍，得到时间效率对比表：</h4><p>其中423849非素数</p>
+<table>
 <thead>
 <tr>
 <th>time /ms</th>
@@ -346,7 +347,7 @@
 <th>99991</th>
 <th>46237</th>
 <th>989423</th>
-<th>423849(非素数)</th>
+<th>423849  </th>
 </tr>
 </thead>
 <tbody>
@@ -375,7 +376,7 @@
 <td>0</td>
 </tr>
 <tr>
-<td>a^(n-1) mod n)≡1</td>
+<td> a^(n-1) mod n)≡1</td>
 <td>16</td>
 <td>31</td>
 <td>15</td>
@@ -423,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/13/test/" rel="next" title="lalala">
-                <i class="fa fa-chevron-left"></i> lalala
+              <a href="/2017/05/13/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
               </a>
             
           </div>
@@ -503,7 +504,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
