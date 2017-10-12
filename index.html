@@ -328,16 +328,17 @@
         
           
             <h1 id="费马小定理判定素数"><a href="#费马小定理判定素数" class="headerlink" title="费马小定理判定素数"></a>费马小定理判定素数</h1><p>判定素数的方法有很多，简单的遍历算法有如下三种：</p>
-<pre><code>-  **for(int i=3;i&lt;n;i++)**
--  **for(int i=3;i&lt;n/2;i++)**
--  **for(int i=3;i&lt;sqrt(n);i++)** //sqrt()为平方根函数
--  ***（本文不讨论n&lt;=2的情况）**
-</code></pre><blockquote>
+<ul>
+<li><strong>for(int i=3;i&lt;n;i++)</strong></li>
+<li><strong>for(int i=3;i&lt;n/2;i++)</strong></li>
+<li><strong>for(int i=3;i&lt;sqrt(n);i++) //sqrt()为平方根函数</strong><br><strong>（本文不讨论n&lt;=2的情况）</strong></li>
+</ul>
+<blockquote>
 <p>可以看出这三种方法用来判定素数一种比一种快，效率更高。但是如果要判定的数值非常大，用这三种方法来进行判定花的时间就会比较久，谁也不想坐在电脑面前傻等是不是(╯‵□′)╯︵┻━┻。</p>
 </blockquote>
 <h4 id="那么有没有一种算法能够不用遍历就判定出素数呢？"><a href="#那么有没有一种算法能够不用遍历就判定出素数呢？" class="headerlink" title="那么有没有一种算法能够不用遍历就判定出素数呢？"></a>那么有没有一种算法能够不用遍历就判定出素数呢？</h4><p>答案自然是有的啦！此时就要请出<strong>费马</strong>大佬了</p>
 <h2 id="费马小定理"><a href="#费马小定理" class="headerlink" title="费马小定理:"></a><a href="https://baike.baidu.com/item/%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86/4776158?fr=aladdin" target="_blank" rel="external">费马小定理</a>:</h2><blockquote>
-<p>假如p是质数，且gcd(a,p)=1，那么$a^(p-1)≡1（mod p)$，即：假如a是整数，p是质数，且a,p互质(即两者只有一个公约数1)，那么a的(p-1)次方除以p的余数恒等于1。</p>
+<p>假如p是质数，且gcd(a,p)=1，那么a^(p-1)≡1（mod p)，即：假如a是整数，p是质数，且a,p互质(即两者只有一个公约数1)，那么a的(p-1)次方除以p的余数恒等于1。</p>
 <p><strong>也就是说： <code>p为素数--&gt;（a^(p-1) mod p)≡1</code></strong></p>
 </blockquote>
 <h4 id="但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"><a href="#但是，满足公式（a-p-1-mod-p-≡1是否一定可以推出p为素数呢？答案是否定的。如-341-11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。" class="headerlink" title="但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。"></a>但是，满足公式（a^(p-1) mod p)≡1是否一定可以推出p为素数呢？答案是否定的。如 341=11×31，但是341却可以找到一个a使得公式成立，也称341为伪素数。因此，要用该公式来判定是否为素数，需要进行多次计算，若每一次的a都能符合公式，则该数是素数的概率就会很大，可以认为它就是素数。</h4><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h4 id="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。"><a href="#由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a-p-1-mod-p-≡1成立即可推出p为素数。为了方便计算，通常在区间-2-p-1-之间随机取a，然后运算a-p-1-，再对p取模，判断结果是否为1即可知道p是不是素数。" class="headerlink" title="由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。"></a>由上面定理可知，当给定一个数p，我们只需要找到多个a使得公式（a^(p-1) mod p)≡1成立即可推出p为素数。为了方便计算，通常在区间[2,p-1]之间随机取a，然后运算a^(p-1)，再对p取模，判断结果是否为1即可知道p是不是素数。</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//随机取a  需包含库&lt;time.h&gt;</span></div><div class="line">srand((<span class="keyword">unsigned</span>)time(<span class="literal">NULL</span>));</div><div class="line">a=(rand() % (p - <span class="number">2</span>)+<span class="number">2</span>) ;<span class="comment">//可取到[2,p-1]之间的值</span></div></pre></td></tr></table></figure>
@@ -392,7 +393,7 @@
 <blockquote>
 <p>从上表可以看出，如果n为素数且n较大时，使用费马小定理进行判定将会大大缩短判定的时间，如果n不是素数，则各算法时间差别不大。</p>
 </blockquote>
-<h4 id="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"><a href="#利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。" class="headerlink" title="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"></a>利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。</h4><h4 id="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。详情请见我的github。"><a href="#另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。详情请见我的github。" class="headerlink" title="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。详情请见我的github。"></a>另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。详情请见我的<a href="https://github.com/coolbhy/IsPrime" target="_blank" rel="external">github</a>。</h4>
+<h4 id="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"><a href="#利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。" class="headerlink" title="利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。"></a>利用费马小定理，相比其他遍历算法，能够更高效地判定出素数。</h4><h4 id="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。"><a href="#另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。" class="headerlink" title="另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的github。"></a>另外，文中的代码没有考虑非正常输入的情况，在编写代码时应注意判断出入的数是否是合格数据。源码请见我的<a href="https://github.com/coolbhy/IsPrime" target="_blank" rel="external">github</a>。</h4>
           
         
       
