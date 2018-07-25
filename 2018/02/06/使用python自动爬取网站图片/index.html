@@ -99,7 +99,7 @@
 <meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/3.png">
 <meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/5.png">
 <meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/4.png">
-<meta property="og:updated_time" content="2018-02-06T05:12:53.805Z">
+<meta property="og:updated_time" content="2018-07-25T11:44:40.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用python自动爬取网站图片">
 <meta name="twitter:description" content="前言爬虫指的是向网站发起请求，获取资源后分析并提取有用数据的程序 安装环境 python版本：3.6.4 IDE：pycharm 使用到的库我们使用python自带的urllib对网站进行发送请求和下载图片        获取到网页资源信息后我们使用BeautifulSoup来对信息进行分析和提取。pycharm中可以在file-&amp;gt;setting-&amp;gt;project Interprete">
@@ -354,7 +354,7 @@
 </blockquote>
 <pre><code>接下来就可以向网站发送请求了：
 </code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">web = urllib.request.Request(url=url, headers=headers)</div><div class="line">page = urllib.request.urlopen(web).read()</div></pre></td></tr></table></figure>
-<pre><code>返回的page就是网页的源码啦。^_^
+<pre><code>返回的page就是网页的源码啦。
 </code></pre><h2 id="页面解析"><a href="#页面解析" class="headerlink" title="页面解析"></a>页面解析</h2><blockquote>
 <p>根据返回的网页源码和准备工作中发现的特性，可以使用BeautifulSoup对page进行分析，直接寻找所有alt属性不为空的img标签，即可得到封面图片的描述。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">soup = BeautifulSoup(page, <span class="string">'html.parser'</span>)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_main_img</span><span class="params">(soup)</span>:</span><span class="comment">#获取封面图片的地址</span></div><div class="line">    imgs = soup.findAll(<span class="string">'img'</span>)<span class="comment">#找到所有的img标签</span></div><div class="line">    alt = []</div><div class="line">    <span class="keyword">for</span> img <span class="keyword">in</span> imgs:</div><div class="line">        <span class="keyword">if</span> img.get(<span class="string">'alt'</span>) != <span class="keyword">None</span>:</div><div class="line">             alt.append(img.get(<span class="string">'alt'</span>))</div><div class="line">    <span class="keyword">return</span> alt</div></pre></td></tr></table></figure></p>
 <p>现在我们得到了页面上所有封面图片的描述了，接下来，可以发现，点击封面图片后会跳转到另一个页面，里面有封面图片对应的所有图片，这才是我们最终想要的结果！(<em>^▽^</em>)。</p>
@@ -418,6 +418,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/25/STL总结/" rel="prev" title="C++ STL 总结">
+                C++ STL 总结 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -496,7 +500,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -509,7 +513,7 @@
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
