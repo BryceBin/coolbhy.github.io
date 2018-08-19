@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="获取头像 腾讯提供了一个接口：“http://q2.qlogo.cn/headimg_dl?bs=QQ号&amp;amp;dst_uin=QQ号&amp;amp;src_uin=QQ号&amp;amp;fid=QQ号&amp;amp;spec=100&amp;amp;url_enc=0&amp;amp;referer=bu_interface&amp;amp;term_type=PC“，只要将连接中的“QQ号”替换成好友的QQ号即可访问到他的头像了">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬取400个QQ好友头像并拼接">
+<meta property="og:url" content="http://yoursite.com/2018/02/06/爬取400个QQ好友头像并拼接/index.html">
+<meta property="og:site_name" content="upbhy">
+<meta property="og:description" content="获取头像 腾讯提供了一个接口：“http://q2.qlogo.cn/headimg_dl?bs=QQ号&amp;amp;dst_uin=QQ号&amp;amp;src_uin=QQ号&amp;amp;fid=QQ号&amp;amp;spec=100&amp;amp;url_enc=0&amp;amp;referer=bu_interface&amp;amp;term_type=PC“，只要将连接中的“QQ号”替换成好友的QQ号即可访问到他的头像了">
+<meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/%E9%80%9A%E8%AE%AF%E5%BD%95.png">
+<meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/%E5%AF%BC%E5%87%BA1.png">
+<meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/%E6%9B%BF%E6%8D%A2.png">
+<meta property="og:image" content="http://oy3ps1cx9.bkt.clouddn.com/allHead.jpg">
+<meta property="og:updated_time" content="2018-02-06T05:07:48.854Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="爬取400个QQ好友头像并拼接">
+<meta name="twitter:description" content="获取头像 腾讯提供了一个接口：“http://q2.qlogo.cn/headimg_dl?bs=QQ号&amp;amp;dst_uin=QQ号&amp;amp;src_uin=QQ号&amp;amp;fid=QQ号&amp;amp;spec=100&amp;amp;url_enc=0&amp;amp;referer=bu_interface&amp;amp;term_type=PC“，只要将连接中的“QQ号”替换成好友的QQ号即可访问到他的头像了">
+<meta name="twitter:image" content="http://oy3ps1cx9.bkt.clouddn.com/%E9%80%9A%E8%AE%AF%E5%BD%95.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/06/爬取400个QQ好友头像并拼接/"/>
+
+
+
+
+
+  <title> 爬取400个QQ好友头像并拼接 | upbhy </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">upbhy</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">lalala</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/06/爬取400个QQ好友头像并拼接/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Bin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oy3ps1cx9.bkt.clouddn.com/head_img.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="upbhy">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                爬取400个QQ好友头像并拼接
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-06T00:00:00+08:00">
+                2018-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/02/06/爬取400个QQ好友头像并拼接/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/02/06/爬取400个QQ好友头像并拼接/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="获取头像"><a href="#获取头像" class="headerlink" title="获取头像"></a>获取头像</h2><blockquote>
+<p>腾讯提供了一个接口：<strong>“<a href="http://q2.qlogo.cn/headimg_dl?bs=QQ号&amp;dst_uin=QQ号&amp;src_uin=QQ号&amp;fid=QQ号&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC" target="_blank" rel="external">http://q2.qlogo.cn/headimg_dl?bs=QQ号&amp;dst_uin=QQ号&amp;src_uin=QQ号&amp;fid=QQ号&amp;spec=100&amp;url_enc=0&amp;referer=bu_interface&amp;term_type=PC</a>“</strong>，只要将连接中的“QQ号”替换成好友的QQ号即可访问到他的头像了</p>
+<p>  现在只要获取好友们的QQ号就可以啦。</p>
+</blockquote>
+<h2 id="获取QQ号"><a href="#获取QQ号" class="headerlink" title="获取QQ号"></a>获取QQ号</h2><blockquote>
+<p>由于腾讯并没有直接提供一个接口让我们获取到所有好友的QQ号，所以我们这里采用迂回战术，巧妙地获取到好友们的QQ号。<br>        进入QQ邮箱，点击右边的QQ好友分组，依次将每个分组的好友添加到通讯录中，直到通讯录中包含了所有的好友，当然也可以选择性地添加一部分好友。接下来导出通讯录，导出格式选择CSV格式。</p>
+</blockquote>
+<p><img src="http://oy3ps1cx9.bkt.clouddn.com/%E9%80%9A%E8%AE%AF%E5%BD%95.png" alt="通讯录"><br><img src="http://oy3ps1cx9.bkt.clouddn.com/%E5%AF%BC%E5%87%BA1.png" alt="导出"></p>
+<blockquote>
+<p>现在在导出的表中有了所有的QQ好友的邮箱，然后将所有的”@qq.com”删去就可以得到QQ号了。</p>
+</blockquote>
+<p><img src="http://oy3ps1cx9.bkt.clouddn.com/%E6%9B%BF%E6%8D%A2.png" alt="替换"></p>
+<h2 id="下载头像"><a href="#下载头像" class="headerlink" title="下载头像"></a>下载头像</h2><blockquote>
+<p>得到了QQ号之后，可直接使用接口对头像进行下载。在python中，使用CSV库对.csv文件进行读取操作，使用urllib对头像进行下载，使用os进行头像本地保存。下载下来的头像以备注名命名，方便检查。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_headImg_url</span><span class="params">(head_img_url)</span>:</span></div><div class="line">    csv_reader = csv.reader(open(<span class="string">'D:\\test.csv'</span>))<span class="comment">#读取文件</span></div><div class="line">    headImg_list = []<span class="comment">#存放头像网络地址</span></div><div class="line">    name_list = []<span class="comment">#存放备注名</span></div><div class="line">    i = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> qq_num <span class="keyword">in</span> csv_reader:<span class="comment">#获取一行中的头像地址和备注名</span></div><div class="line">        name_list.append(qq_num[<span class="number">0</span>])</div><div class="line">        headImg_list.append(head_img_url.replace(<span class="string">'QQ号'</span>, qq_num[<span class="number">1</span>]))</div><div class="line">        i += <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">404</span>):<span class="comment">#下载头像到本地</span></div><div class="line">        path = <span class="string">'D:\\learn\\headImgs\\'</span> <span class="comment">#本地存放路径</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(path):<span class="comment">#路径不存在则创建</span></div><div class="line">            os.makedirs(path)</div><div class="line">        img_src = path+name_list[i]+<span class="string">'.jpg'</span></div><div class="line">        img = urllib.request.urlopen(headImg_list[i]).read()</div><div class="line">        <span class="keyword">with</span> open(img_src,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</div><div class="line">            f.write(img)</div><div class="line">            f.close()</div><div class="line">        print(<span class="string">"第张"</span>+str(i+<span class="number">1</span>)+<span class="string">"下载完成"</span>)</div><div class="line">    <span class="keyword">return</span>  name_list</div></pre></td></tr></table></figure>
+<h2 id="头像拼接"><a href="#头像拼接" class="headerlink" title="头像拼接"></a>头像拼接</h2><blockquote>
+<p>将所有好友的头像下载下来之后，我们可以开始拼接工作了。这是需要使用PIL库对图像进行操作，因为PIL库只兼容python2，对python3没有兼容性，所以需要安装它的类库Pillow，使用的时候这样导入：from PIL import Image</p>
+<p>因为下载的头像都是100px*100px的，所以400张图片可以直接生成一张2000px*2000px的新图，然后使用paste方法将头像一张一张粘贴到新图中的对应位置即可<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">imgs_paste</span><span class="params">(name_list)</span>:</span><span class="comment">#图片拼接  20*20</span></div><div class="line">    unit = <span class="number">100</span></div><div class="line">    toImg = Image.new(<span class="string">'RGB'</span>,(unit*<span class="number">20</span>,unit*<span class="number">20</span>))</div><div class="line">    path = <span class="string">'D:\learn\headImgs\\'</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">400</span>):</div><div class="line">        fromImg = Image.open(path+name_list[i]+<span class="string">'.jpg'</span>)</div><div class="line">        loc = ((int(i / <span class="number">20</span>) * <span class="number">100</span>), (i % <span class="number">20</span>) * <span class="number">100</span>)<span class="comment">#确定位置</span></div><div class="line">        toImg.paste(fromImg,loc)</div><div class="line">    toImg.show()</div><div class="line">    toImg.save(<span class="string">'allHead.jpg'</span>)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="大功告成"><a href="#大功告成" class="headerlink" title="大功告成"></a>大功告成</h2><p><img src="http://oy3ps1cx9.bkt.clouddn.com/allHead.jpg" alt="头像"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><blockquote>
+<p>这个程序总体来说难度不高，作为新手的练手项目很合适，还能在票圈里装个B。</p>
+<p>安装pillow库的坑很多，想要尝试的同学慢慢填坑哈哈哈哈。</p>
+<p>源码请见我的<a href="https://github.com/coolbhy" title="GitHub" target="_blank" rel="external">GitHub</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/11/IsPrime/" rel="next" title="素数判定">
+                <i class="fa fa-chevron-left"></i> 素数判定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/06/使用python自动爬取网站图片/" rel="prev" title="使用python自动爬取网站图片">
+                使用python自动爬取网站图片 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://oy3ps1cx9.bkt.clouddn.com/head_img.jpg"
+               alt="Bin" />
+          <p class="site-author-name" itemprop="name">Bin</p>
+           
+              <p class="site-description motion-element" itemprop="description">nothing to lose</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/coolbhy" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取头像"><span class="nav-number">1.</span> <span class="nav-text">获取头像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取QQ号"><span class="nav-number">2.</span> <span class="nav-text">获取QQ号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载头像"><span class="nav-number">3.</span> <span class="nav-text">下载头像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#头像拼接"><span class="nav-number">4.</span> <span class="nav-text">头像拼接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大功告成"><span class="nav-number">5.</span> <span class="nav-text">大功告成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Bin</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://bhy.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/02/06/爬取400个QQ好友头像并拼接/';
+          this.page.identifier = '2018/02/06/爬取400个QQ好友头像并拼接/';
+          this.page.title = '爬取400个QQ好友头像并拼接';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://bhy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+  <!-- 添加动态背景  by bhy  -->
+  
+<script type="text/javascript"
+color="0,0,0" opacity='0.5' zIndex="-2" count="150" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+</body>
+</html>
